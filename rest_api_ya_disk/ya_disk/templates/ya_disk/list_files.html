@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> User Yandex disk </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% for i in data %}
+        <a href="{% url 'path' key path|add:i.name|add:'/' %}">{{ i.type }} - {{ i.name }}</p>
+    {% empty %}
+    <p>Пустая папка</p>
+    {% endfor %}
+</body>

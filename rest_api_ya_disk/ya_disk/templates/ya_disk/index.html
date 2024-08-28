@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> User Yandex disk </title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% if data %}
+    {% for i in data %}
+        <a href="{% url 'path' key i.name|add:'/' %}">{{ i.type }} - {{ i.name }}</p>
+    {% empty %}
+    <p>Пустая папка</p>
+    {% endfor %}
+    {% else %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type='submit' value='Войти в папку'>
+    </form>
+    {% endif %}
+</body>
