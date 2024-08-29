@@ -1,10 +1,12 @@
-from django.urls import path, re_path
+from django.urls import path
+
 
 from ya_disk import views
 
 
 
-urlpatterns = [
-    path('api/', views.index, name='index'),
-    path('api/key=<path:key>/<path:path>', views.path_folder, name='path')
+urlpatterns = [   
+    path('api/', views.index, name='index'), # GET: форма получения public_key, POST: отображение публичного каталога
+    path('api/download/', views.download_files, name='download'), # POST: загрузка нескольких файлов одновременно
+    path('api<path:path1>', views.path_folder, name='path_folder'), # POST: перемещение по каталогам
 ]

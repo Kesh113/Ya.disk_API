@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title> User Yandex disk </title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <ul>
+        {% for status in statuses %}
+        <li>{{ status }}</li>
+        <br>
+        {% endfor %}
+    </ul>
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="submit" value="Вернуться в начало каталога">
+    </form>
+</body>
