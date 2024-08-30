@@ -1,80 +1,11 @@
-<!DOCTYPE html>
-<html>
+{% extends 'ya_disk/base.html' %}
 
-<head>
-    <title> User Yandex disk </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script>
-        let dotCount = 0;
-        const maxDots = 3;
-
-        function showLoadingMessage(event) {
-            document.getElementById('loadingMessage').style.display = 'block';
-
-            setInterval(() => {
-                dotCount = (dotCount + 1) % (maxDots + 1); // увеличиваем счетчик точек
-                document.getElementById('dots').textContent = '.'.repeat(dotCount); // обновляем отображаемые точки
-            }, 1000);
-        }
-    </script>
-    <style>
-        #loadingMessage {
-            display: none;
-            font-size: 20px;
-            margin: 20px auto;
-        }
-    </style>
-</head>
-
-<body>
-    {% if data %}
-    <h2>Каталог файлов</h2>
-    <p>путь: /</p>
-    <br>
-    <ul>
-        {% for i in data %}
-        {% if i.type == 'dir' %}
-        <li style="list-style: none; margin-left: 24px;">
-            <span>{{ i.type }} - </span>
-            <a href="{% url 'path_folder' i.path %}">
-                {{ i.name }}
-            </a>
-        </li>
-        <br>
-        {% endif %}
-        {% endfor %}
-        <form action="{% url 'download' %}" method="post" onsubmit="showLoadingMessage(event)">
-            {% csrf_token %}
-            {% for i in data %}
-            {% if i.type == 'file' %}
-            <li style="list-style: none;">
-                <input type="checkbox" name="file_paths" value="{{ i.file }}">
-                <span>{{ i.type }} - </span>
-                <a href="{{ i.file }}">
-                     {{ i.name }} 
-                </a>
-                <span>({{ i.size }} bytes)</span>
-                
-            </li>
-            <br>
-            {% endif %}
-            {% endfor %}
-            {% if data %}
-            <br>
-            <input type="submit" name="submit" value="Скачать выбранные файлы">
-            <div id="loadingMessage">Идет загрузка файлов<span id="dots">...</span></div>
-            {% endif %}
-        </form>
-        {% if not data %}
-        <h3><strong>Пустая папка</strong></h3>
-        {% endif %}
-    </ul>
-    {% else %}
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type='submit' value='Войти в диск'>
-    </form>
-    {% endif %}
-</body>
+{% block feature %}
+{% if not data %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type='submit' value='Войти в диск'>
+</form>
+{% endif %}
+{% endblock %}
